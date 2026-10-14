@@ -1,7 +1,7 @@
 # Kotlin Term Project
 This is a group project for CIS 476-01, utilizing the Koltin coding language to create a game.
 
-## Current Project Idea: *Number's Game*
+## Current Project Idea: *Numbers Game*
 ### Player Tools
 In this game, the user will be given: 
 - 4 Equation Integers
