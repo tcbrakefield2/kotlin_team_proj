@@ -5,7 +5,7 @@ This is a group project for CIS 476-01, utilizing the Koltin coding language to 
 ### Player Tools
 In this game, the user will be given: 
 - 4 Equation Integers
-- 4 Arithmetic Symbols (+,-,/,* : Add, Subtract, Divide, Multiply)
+- 4 Arithmetic Symbols (+, -, /, * : Add, Subtract, Divide, Multiply)
 - 1 Target Integer
 ### Player Goal
 The goal of the game will be that the player, utilizing the equation integers and
