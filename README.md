@@ -21,7 +21,7 @@ integer.
 **Example:** Target = 6, Integers = 2, 4, 6, 8; Solution: 2 * 4 + 6 - 8 = 6; Game won!
 *Note: The game does NOT process the symbols in PEMDAS style. They are processed in a clockwise manner.
 
-## Dev Tools: *To Be Updated
+## Dev Tools:
 - Android Rabbit 1 (IDE)
 - Kotlin (Programming Language)
 - Online Sources (Learning)
