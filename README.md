@@ -2,9 +2,9 @@
 This is a group project for CIS 476-01, utilizing the Kotlin coding language to create a game involving math.
 
 # Group Members:
-[Thomas Brakefield](https://github.com/tcbrakefield2)
-[Troy Woods](https://github.com/busterwoods)
-[Tony Mendes](https://github.com/Genovios)
+- [Thomas Brakefield](https://github.com/tcbrakefield2)
+- [Troy Woods](https://github.com/busterwoods)
+- [Tony Mendes](https://github.com/Genovios)
 
 ## Title: *Number Game*
 
