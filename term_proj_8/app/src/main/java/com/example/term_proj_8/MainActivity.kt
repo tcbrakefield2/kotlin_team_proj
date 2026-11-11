@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         // Calculate values as it goes ✓
         // Display Goal ✓
         // Check end value equals goal value ✓
-        // Reset button to clear operations -- Added Reset Button, need to make reset and give visual feedback
+        // Reset button to clear operations ✓
 
         val textNum1 = findViewById<TextView>(R.id.num_1)
         val textNum2 = findViewById<TextView>(R.id.num_2)
@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         opButtons.add(findViewById<Button>(R.id.sub_btn))
         opButtons.add(findViewById<Button>(R.id.div_btn))
         opButtons.add(findViewById<Button>(R.id.mult_btn))
+        opButtons.add(findViewById<Button>(R.id.reset_btn))
 
         val textNumBoxes = ArrayList<TextView>()
         textNumBoxes.add(textNum1)
@@ -58,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         val subButton: Button = findViewById(R.id.sub_btn)
         val multButton: Button = findViewById(R.id.mult_btn)
         val divButton: Button = findViewById(R.id.div_btn)
+        val resetButton: Button = findViewById(R.id.reset_btn)
 
         val operator1 = findViewById<TextView>(R.id.operator_1)
         val operator2 = findViewById<TextView>(R.id.operator_2)
@@ -89,6 +91,18 @@ class MainActivity : AppCompatActivity() {
             // and if position is in final position
             if ((currValue == goalValue) && (position == maxPosition)) {
                 Instructions.text = "You win!"
+                addButton.isEnabled = false
+                subButton.isEnabled = false
+                divButton.isEnabled = false
+                multButton.isEnabled = false
+            }
+
+            else if(position == maxPosition) {
+                Instructions.text = "Try again!"
+                addButton.isEnabled = false
+                subButton.isEnabled = false
+                divButton.isEnabled = false
+                multButton.isEnabled = false
             }
         }
 
@@ -105,6 +119,19 @@ class MainActivity : AppCompatActivity() {
 
             if ((currValue == goalValue) && (position == maxPosition)) {
                 Instructions.text = "You win!"
+                addButton.isEnabled = false
+                subButton.isEnabled = false
+                divButton.isEnabled = false
+                multButton.isEnabled = false
+
+            }
+
+            else if(position == maxPosition) {
+                Instructions.text = "Try again!"
+                addButton.isEnabled = false
+                subButton.isEnabled = false
+                divButton.isEnabled = false
+                multButton.isEnabled = false
             }
         }
         multButton.setOnClickListener {
@@ -120,6 +147,18 @@ class MainActivity : AppCompatActivity() {
 
             if ((currValue == goalValue) && (position == maxPosition)) {
                 Instructions.text = "You win!"
+                addButton.isEnabled = false
+                subButton.isEnabled = false
+                divButton.isEnabled = false
+                multButton.isEnabled = false
+            }
+
+            else if(position == maxPosition) {
+                Instructions.text = "Try again!"
+                addButton.isEnabled = false
+                subButton.isEnabled = false
+                divButton.isEnabled = false
+                multButton.isEnabled = false
             }
         }
         divButton.setOnClickListener {
@@ -135,7 +174,41 @@ class MainActivity : AppCompatActivity() {
 
             if ((currValue == goalValue) && (position == maxPosition)) {
                 Instructions.text = "You win!"
+                addButton.isEnabled = false
+                subButton.isEnabled = false
+                divButton.isEnabled = false
+                multButton.isEnabled = false
             }
+
+            else if(position == maxPosition) {
+                Instructions.text = "Try again!"
+                addButton.isEnabled = false
+                subButton.isEnabled = false
+                divButton.isEnabled = false
+                multButton.isEnabled = false
+            }
+        }
+
+        resetButton.setOnClickListener {
+            operator1.text = "___"
+            operator2.text = "___"
+            operator3.text = "___"
+
+            position = 0
+            currValue = 0
+            setCurrValue(currValue, currValueText)
+
+            if (Instructions.text != "Math evaluates clockwise (non-PEMDAS)") {
+                Instructions.text = "Math evaluates clockwise (non-PEMDAS)"
+            }
+
+            if (addButton.isEnabled == false) {
+                addButton.isEnabled = true
+                subButton.isEnabled = true
+                divButton.isEnabled = true
+                multButton.isEnabled = true
+            }
+
         }
 
 
