@@ -1,19 +1,25 @@
 # Kotlin Term Project
-This is a group project for CIS 476-01, utilizing the Koltin coding language to create a game.
+This is a group project for CIS 476-01, utilizing the Kotlin coding language to create a game involving math.
 
-## Current Project Idea: *Numbers Game*
+# Group Members:
+[Thomas Brakefield](https://github.com/tcbrakefield2)
+[Troy Woods](https://github.com/busterwoods)
+[Tony Mendes](https://github.com/Genovios)
+
+## Title: *Number Game*
+
 ### Player Tools
 In this game, the user will be given: 
 - 4 Equation Integers
 - 4 Arithmetic Symbols (+, -, /, * : Add, Subtract, Divide, Multiply)
-- 1 Target Integer
+- 1 Target Integer to Achieve
+
 ### Player Goal
 The goal of the game will be that the player, utilizing the equation integers and
-arithmetic symbols, must complete the equation to get the value equal to the target
+arithmetic symbols, must complete the equation to get a value equal to the target
 integer.
-**For Example:** Target = 1, Integers = 1 1 1 1; Solution: ((1 + 1) - ((1 * 1) / 1) = 1; Game won!
-*Note: The game will process the symbols in PEMDAS style.
-In other words: Multiply -> Divide -> Add -> Subtract
+**Example:** Target = 6, Integers = 2, 4, 6, 8; Solution: 2 * 4 + 6 - 8 = 6; Game won!
+*Note: The game does NOT process the symbols in PEMDAS style. They are processed in a clockwise manner.
 
 ## Dev Tools: *To Be Updated
 - Android Rabbit 1 (IDE)
