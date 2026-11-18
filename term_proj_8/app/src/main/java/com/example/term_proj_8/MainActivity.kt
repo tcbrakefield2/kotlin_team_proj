@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         val textNum5 = findViewById<TextView>(R.id.goalVal)
 
         val maxPosition = 3
-        var currValue = 0
+        var currValue:Double = 0.0
         var position = 0
 
         opButtons.add(findViewById<Button>(R.id.add_btn))
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
         val Instructions = findViewById<TextView>(R.id.Instructions)
         val nums = intArrayOf(2, 4, 6, 8, 6)
-        val goalValue = nums[4]
+        val goalValue = nums[4].toDouble()
 
         val konfettiView = findViewById<KonfettiView>(R.id.konfettiView)
 
@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity() {
             operator3.text = "___"
 
             position = 0
-            currValue = 0
+            currValue = 0.0
             setCurrValue(currValue, currValueText)
 
             if (Instructions.text != "Math evaluates clockwise (non-PEMDAS)") {
@@ -170,8 +170,13 @@ fun setOperation(operation: String, position: Int, operators: List<TextView>) {
     }
 }
 
-fun setCurrValue(currValue: Int, currentText: TextView) {
-    currentText.text = currValue.toString()
+fun setCurrValue(currValue: Double, currentText: TextView) {
+    if (currValue % 1.0 == 0.0) {
+        val intValue = currValue.toInt()
+        currentText.text = intValue.toString()
+    } else {
+        currentText.text = currValue.toString()
+    }
 }
 
 fun disableButtons(buttons: List<Button>) {
@@ -186,55 +191,55 @@ fun enableButtons(buttons: List<Button>) {
     }
 }
 
-fun calcCurrValueAdd(position: Int, current: Int, nums: IntArray): Int {
+fun calcCurrValueAdd(position: Int, current: Double, nums: IntArray): Double {
     var currValue = current
 
-    if (currValue == 0)
+    if (currValue == 0.0)
     {
-        currValue = nums[position] + nums[position + 1]
+        currValue = (nums[position] + nums[position + 1]).toDouble()
     } else {
         currValue += nums[position + 1]
     }
     return currValue
 }
 
-fun calcCurrValueSub(position: Int, current: Int, nums: IntArray): Int {
+fun calcCurrValueSub(position: Int, current: Double, nums: IntArray): Double {
     var currValue = current
 
-    if (currValue == 0)
+    if (currValue == 0.0)
     {
-        currValue = nums[position] - nums[position + 1]
+        currValue = (nums[position] - nums[position + 1]).toDouble()
     } else {
         currValue -= nums[position + 1]
     }
     return currValue
 }
 
-fun calcCurrValueMult(position: Int, current: Int, nums: IntArray): Int {
+fun calcCurrValueMult(position: Int, current: Double, nums: IntArray): Double {
     var currValue = current
 
-    if (currValue == 0)
+    if (currValue == 0.0)
     {
-        currValue = nums[position] * nums[position + 1]
+        currValue = (nums[position] * nums[position + 1]).toDouble()
     } else {
         currValue *= nums[position + 1]
     }
     return currValue
 }
 
-fun calcCurrValueDiv(position: Int, current: Int, nums: IntArray): Int {
+fun calcCurrValueDiv(position: Int, current: Double, nums: IntArray): Double {
     var currValue = current
 
-    if (currValue == 0)
+    if (currValue == 0.0)
     {
-        currValue = nums[position] / nums[position + 1]
+        currValue = (nums[position] / nums[position + 1]).toDouble()
     } else {
         currValue /= nums[position + 1]
     }
     return currValue
 }
 
-fun checkGameState(currValue: Int, goalValue: Int, Instructions: TextView, buttons: List<Button>, konfettiView: KonfettiView) {
+fun checkGameState(currValue: Double, goalValue: Double, Instructions: TextView, buttons: List<Button>, konfettiView: KonfettiView) {
     if (currValue == goalValue) {
         Instructions.text = "You win!"
         konfettiView.start(Party(
