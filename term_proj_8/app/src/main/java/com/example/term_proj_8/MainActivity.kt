@@ -7,10 +7,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import nl.dionsegijn.konfetti.xml.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
+import java.math.RoundingMode
 import java.util.concurrent.TimeUnit
 
 
@@ -19,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     private val opButtons = mutableListOf<Button>()
     private val textNumBoxes = mutableListOf<TextView>()
     private val currOperators = mutableListOf<TextView>()
+
+    private var gameState:String = "None"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +49,9 @@ class MainActivity : AppCompatActivity() {
         val textNum5 = findViewById<TextView>(R.id.goalVal)
 
         val maxPosition = 3
-        var currValue:Double = 0.0
+        var currValue: Double = 0.0
         var position = 0
+        var level = 0
 
         opButtons.add(findViewById<Button>(R.id.add_btn))
         opButtons.add(findViewById<Button>(R.id.sub_btn))
@@ -77,8 +82,24 @@ class MainActivity : AppCompatActivity() {
         currOperators.add(operator3)
 
         val Instructions = findViewById<TextView>(R.id.Instructions)
-        val nums = intArrayOf(2, 4, 6, 8, 6)
-        val goalValue = nums[4].toDouble()
+        val levels = arrayOf(
+            intArrayOf(2, 4, 6, 8, 6),
+            intArrayOf(3, 8, 2, 5, 17),
+            intArrayOf(6, 3, 8, 2, 12),
+            intArrayOf(7, 4, 8, 2, 22),
+            intArrayOf(3, 3, 7, 2, 14),
+            intArrayOf(8, 2, 3, 5, 8),
+            intArrayOf(2, 8, 2, 5, 13),
+            intArrayOf(3, 2, 5, 9, 9),
+            intArrayOf(8, 7, 9, 9, 15),
+            intArrayOf(9, 9, 3, 3, 18),
+            intArrayOf(7, 2, 9, 7, 7),
+            intArrayOf(4, 8, 6, 8, 10),
+            intArrayOf(3, 4, 4, 5, 8),
+            intArrayOf(8, 7, 7, 4, 12),
+            intArrayOf(11, 2, 12, 4, 70)
+        )
+        var goalValue = 0.0
 
         val konfettiView = findViewById<KonfettiView>(R.id.konfettiView)
 
@@ -86,45 +107,45 @@ class MainActivity : AppCompatActivity() {
 
         addButton.setOnClickListener {
             setOperation("+", position, currOperators)
-            currValue = calcCurrValueAdd(position, currValue, nums)
+            currValue = calcCurrValueAdd(position, currValue, levels[level])
             setCurrValue(currValue, currValueText)
             position++
 
             // !!! Evaluates if player wins, checks if current value == goal value
             // and if position is in final position
             if(position == maxPosition) {
-                checkGameState(currValue, goalValue, Instructions, opButtons, konfettiView)
+                gameState =  checkGameState(currValue, goalValue, Instructions, opButtons, konfettiView, resetButton)
             }
         }
 
         subButton.setOnClickListener {
             setOperation("-", position, currOperators)
-            currValue = calcCurrValueSub(position, currValue, nums)
+            currValue = calcCurrValueSub(position, currValue, levels[level])
             setCurrValue(currValue, currValueText)
             position++
 
             if(position == maxPosition) {
-                checkGameState(currValue, goalValue, Instructions, opButtons, konfettiView)
+                gameState =  checkGameState(currValue, goalValue, Instructions, opButtons, konfettiView, resetButton)
             }
         }
         multButton.setOnClickListener {
             setOperation("*", position, currOperators)
-            currValue = calcCurrValueMult(position, currValue, nums)
+            currValue = calcCurrValueMult(position, currValue, levels[level])
             setCurrValue(currValue, currValueText)
             position++
 
             if(position == maxPosition) {
-                checkGameState(currValue, goalValue, Instructions, opButtons, konfettiView)
+                gameState =  checkGameState(currValue, goalValue, Instructions, opButtons, konfettiView, resetButton)
             }
         }
         divButton.setOnClickListener {
             setOperation("/", position, currOperators)
-            currValue = calcCurrValueDiv(position, currValue, nums)
+            currValue = calcCurrValueDiv(position, currValue, levels[level])
             setCurrValue(currValue, currValueText)
             position++
 
             if(position == maxPosition) {
-                checkGameState(currValue, goalValue, Instructions, opButtons, konfettiView)
+                gameState = checkGameState(currValue, goalValue, Instructions, opButtons, konfettiView, resetButton)
             }
         }
 
@@ -142,20 +163,31 @@ class MainActivity : AppCompatActivity() {
             }
 
             enableButtons(opButtons)
-
+            if (gameState.equals("WIN") && (level < (levels.size - 1))) {
+                resetButton.text = "Reset"
+                level++
+                goalValue = initializeGameState(levels[level], textNumBoxes)
+                gameState = "Fail"
+            } else if (gameState.equals("WIN") && (level < levels.size)) {
+                resetButton.text = "Reset"
+                level = 0
+                goalValue = initializeGameState(levels[level], textNumBoxes)
+                gameState = "Fail"
+            }
         }
-        initializeGameState(nums, textNumBoxes)
+        goalValue = initializeGameState(levels[level], textNumBoxes)
     }
 
 
 }
 
-fun initializeGameState(nums:  IntArray, textNumBoxes: List<TextView>) {
+fun initializeGameState(nums:  IntArray, textNumBoxes: List<TextView>): Double {
     textNumBoxes[0].text=nums[0].toString()
     textNumBoxes[1].text=nums[1].toString()
     textNumBoxes[2].text=nums[2].toString()
     textNumBoxes[3].text=nums[3].toString()
     textNumBoxes[4].text=nums[4].toString()
+    return nums[4].toDouble()
 }
 
 fun setOperation(operation: String, position: Int, operators: List<TextView>) {
@@ -175,7 +207,7 @@ fun setCurrValue(currValue: Double, currentText: TextView) {
         val intValue = currValue.toInt()
         currentText.text = intValue.toString()
     } else {
-        currentText.text = currValue.toString()
+        currentText.text = currValue.toBigDecimal().setScale(2, RoundingMode.HALF_UP).toString()
     }
 }
 
@@ -194,7 +226,7 @@ fun enableButtons(buttons: List<Button>) {
 fun calcCurrValueAdd(position: Int, current: Double, nums: IntArray): Double {
     var currValue = current
 
-    if (currValue == 0.0)
+    if (position == 0)
     {
         currValue = (nums[position] + nums[position + 1]).toDouble()
     } else {
@@ -206,7 +238,7 @@ fun calcCurrValueAdd(position: Int, current: Double, nums: IntArray): Double {
 fun calcCurrValueSub(position: Int, current: Double, nums: IntArray): Double {
     var currValue = current
 
-    if (currValue == 0.0)
+    if (position == 0)
     {
         currValue = (nums[position] - nums[position + 1]).toDouble()
     } else {
@@ -218,7 +250,7 @@ fun calcCurrValueSub(position: Int, current: Double, nums: IntArray): Double {
 fun calcCurrValueMult(position: Int, current: Double, nums: IntArray): Double {
     var currValue = current
 
-    if (currValue == 0.0)
+    if (position == 0)
     {
         currValue = (nums[position] * nums[position + 1]).toDouble()
     } else {
@@ -230,18 +262,20 @@ fun calcCurrValueMult(position: Int, current: Double, nums: IntArray): Double {
 fun calcCurrValueDiv(position: Int, current: Double, nums: IntArray): Double {
     var currValue = current
 
-    if (currValue == 0.0)
+    if (position == 0)
     {
-        currValue = (nums[position] / nums[position + 1]).toDouble()
+        currValue = ((nums[position]).toDouble() / nums[position + 1]).toDouble()
     } else {
         currValue /= nums[position + 1]
     }
     return currValue
 }
 
-fun checkGameState(currValue: Double, goalValue: Double, Instructions: TextView, buttons: List<Button>, konfettiView: KonfettiView) {
+fun checkGameState(currValue: Double, goalValue: Double, Instructions: TextView, buttons: List<Button>, konfettiView: KonfettiView, resetButton: TextView): String {
+    var GameState = "Fail"
     if (currValue == goalValue) {
         Instructions.text = "You win!"
+        resetButton.text = "Next->"
         konfettiView.start(Party(
             speed = 0f,
             maxSpeed = 30f,
@@ -251,8 +285,10 @@ fun checkGameState(currValue: Double, goalValue: Double, Instructions: TextView,
             emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
             position = Position.Relative(0.5, 0.3)
         ))
+        GameState = "WIN"
     } else {
         Instructions.text = "Try again!"
     }
     disableButtons(buttons)
+    return GameState
 }
