@@ -22,7 +22,7 @@ integer.
 *Note: The game does NOT process the symbols in PEMDAS style. They are processed in a clockwise manner.
 
 ## Dev Tools:
-- Android Rabbit 1 (IDE)
+- Android Studio Rabbit 1, Android Studio Rabbit 2 (IDE)
 - Kotlin (Programming Language)
 - Online Sources (Learning)
   -- https://www.youtube.com/watch?v=8hzJNjj8Zck
